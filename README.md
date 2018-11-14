@@ -1,4 +1,7 @@
-### esshorten
+### esshorten2
+
+Fork from [https://github.com/estools/esshorten/](https://github.com/estools/esshorten/) @1.1.1
+Fix result in node11
 
 esshorten provides name mangler, this shorten names in JavaScript code. mangler accepts JavaScript AST and generate modified AST with shortened names.
 
