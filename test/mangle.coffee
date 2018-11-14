@@ -26,6 +26,112 @@ esshorten = require '../'
 expect = require('chai').expect
 
 describe 'mangle', ->
+    it 'base', ->
+        program =
+            "type": "Program",
+            "body": [
+                {
+                    "type": "FunctionDeclaration",
+                    "id": {
+                        "type": "Identifier",
+                        "name": "code"
+                    },
+                    "params": [
+                        {
+                            "type": "Identifier",
+                            "name": "a1"
+                        },
+                        {
+                            "type": "Identifier",
+                            "name": "a2"
+                        },
+                        {
+                            "type": "Identifier",
+                            "name": "a3"
+                        },
+                        {
+                            "type": "Identifier",
+                            "name": "a4"
+                        },
+                        {
+                            "type": "Identifier",
+                            "name": "a5"
+                        }
+                    ],
+                    "body": {
+                        "type": "BlockStatement",
+                        "body": [
+                            {
+                                "type": "VariableDeclaration",
+                                "declarations": [
+                                    {
+                                        "type": "VariableDeclarator",
+                                        "id": {
+                                            "type": "Identifier",
+                                            "name": "b1"
+                                        },
+                                        "init": null
+                                    },
+                                    {
+                                        "type": "VariableDeclarator",
+                                        "id": {
+                                            "type": "Identifier",
+                                            "name": "b2"
+                                        },
+                                        "init": null
+                                    },
+                                    {
+                                        "type": "VariableDeclarator",
+                                        "id": {
+                                            "type": "Identifier",
+                                            "name": "b3"
+                                        },
+                                        "init": null
+                                    },
+                                    {
+                                        "type": "VariableDeclarator",
+                                        "id": {
+                                            "type": "Identifier",
+                                            "name": "b4"
+                                        },
+                                        "init": null
+                                    },
+                                    {
+                                        "type": "VariableDeclarator",
+                                        "id": {
+                                            "type": "Identifier",
+                                            "name": "b5"
+                                        },
+                                        "init": null
+                                    }
+                                ],
+                                "kind": "var"
+                            }
+                        ]
+                    },
+                    "generator": false,
+                    "expression": false,
+                    "async": false
+                }
+            ],
+            "sourceType": "script"
+
+        result1 = esshorten.mangle program,
+            distinguishFunctionExpressionScope: no
+        expect(result1.body[0].params[0].name).to.equal 'a'
+        expect(result1.body[0].body.body[0].declarations[0].id.name).to.equal 'f'
+
+
+        result2 = esshorten.mangle program,
+            distinguishFunctionExpressionScope: yes
+        expect(result2.body[0].params[0].name).to.equal 'a'
+        expect(result2.body[0].body.body[0].declarations[0].id.name).to.equal 'f'
+
+        result3 = esshorten.mangle program
+        expect(result3.body[0].params[0].name).to.equal 'a'
+        expect(result3.body[0].body.body[0].declarations[0].id.name).to.equal 'f'
+
+
     it 'function expression JSC bug', ->
         program =
             "type": "Program",
